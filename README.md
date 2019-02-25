@@ -1,0 +1,1 @@
+Simple rest service for image processing
