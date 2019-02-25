@@ -4,7 +4,8 @@
   "description": "image processing service",
   "main": "server.js",
   "scripts": {
-    "test": "npm test"
+    "test": "npm test",
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,14 @@
   "bugs": {
     "url": "https://github.com/oaks-view/thumbnail-service/issues"
   },
-  "homepage": "https://github.com/oaks-view/thumbnail-service#readme"
+  "homepage": "https://github.com/oaks-view/thumbnail-service#readme",
+  "dependencies": {
+    "app-root-path": "^2.1.0",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
 }
