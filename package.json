@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "npm test",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "eslint": "^5.14.1",
     "nodemon": "^1.18.10"
   }
 }
