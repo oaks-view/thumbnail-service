@@ -1,5 +1,5 @@
 const appRoot = require('app-root-path');
-const { AUTH_INTEGER } = require(`${appRoot}/api/constants/requestConstants`);
+const { AUTH_INTEGER } = require(`${appRoot}/api/constants/authConstants`);
 const passport = require('passport');
 const passportJWT = require('passport-jwt');
 const ExtractJWT = passportJWT.ExtractJwt;
@@ -11,7 +11,7 @@ jwtOptions.secretOrKey = process.env.JWT_SECRET;
 
 const strategy = new JWTStrategy(jwtOptions, (jwtPayload, next) => {
     const intTestResult = AUTH_INTEGER & +jwtPayload.authId;
-    const hasUsernameAndPassword = jwtPayload.username && jwtPayload.password;
+    const hasUsernameAndPassword = !!jwtPayload.username && !!jwtPayload.password;
 
     if (intTestResult !== AUTH_INTEGER || !hasUsernameAndPassword) {
         next(null, false);
