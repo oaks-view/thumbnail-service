@@ -1,0 +1,1 @@
+exports.AUTH_INTEGER = 2 ** 16;

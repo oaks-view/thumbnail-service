@@ -9,9 +9,16 @@ const router = express.Router();
 
 const app = express();
 
+// Authentication middleware
+require(`${appRoot}/api/middlewares/authentication/auth`);
+
 // configure routes
 userRoute(router);
 
 app.use(router);
+
+const port = process.env.PORT || 3000;
  
-app.listen(3000);
+app.listen(3000, () => {
+    logger.info(`listening at port ${port}`);
+});
