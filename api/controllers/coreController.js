@@ -1,6 +1,7 @@
 const appRoot = require('app-root-path');
 const logger = require(`${appRoot}/config/winston`);
 const jsonPatch = require('fast-json-patch');
+const Jimp = require('jimp');
 
 const coreService = require(`${appRoot}/api/services/coreService`);
 const { HTTP_STATUS } = require(`${appRoot}/api/constants/requestConstants`);
@@ -38,3 +39,34 @@ exports.applyPatch = (req, res) => {
         });
     }
 };
+
+exports.createThumbnail = async (req, res) => {
+    try {
+        const { imageUrl } = req.body;
+
+        if (!imageUrl) {
+            const message = 'imageUrl is missing';
+
+            logger.error(`missing field, ${message}`);
+            return res.status(HTTP_STATUS.BAD_REQUEST.CODE).json({
+                message
+            });
+        }
+        // const image = await Jimp.read({
+        //     url: imageUrl
+        // });
+
+        const image = await Jimp.read(imageUrl);
+
+        const thumbnail = image.resize(50, 50);
+
+        return res.status(HTTP_STATUS.OK.CODE).json({
+            thumbnail
+        })
+    } catch (err) {
+        logger.error(`resize image failed. Msg: ${err.message}`);
+        return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR.CODE).json({
+            message: HTTP_STATUS.INTERNAL_SERVER_ERROR.MESSAGE
+        });
+    }
+}
