@@ -10,6 +10,7 @@ exports.applyPatch = (req, res) => {
     try {
         const { document, patch } = req.body;
 
+        // todo validate document is at least an empty object
         if (!document || !patch) {
             const message = !document ? 'document is required' : 'patch is required';
 
@@ -52,9 +53,6 @@ exports.createThumbnail = async (req, res) => {
                 message
             });
         }
-        // const image = await Jimp.read({
-        //     url: imageUrl
-        // });
 
         const image = await Jimp.read(imageUrl);
 

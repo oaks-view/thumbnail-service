@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const userRoute = require(`${appRoot}/api/routes/userRoute`);
 const coreRoute = require(`${appRoot}/api/routes/coreRoute`);
 const logger = require(`${appRoot}/config/winston`);
+const swaggerUi = require('swagger-ui-express');
 
 const router = express.Router();
 
@@ -19,6 +20,11 @@ app.use(bodyParser.json());
 
 // Authentication middleware
 require(`${appRoot}/api/middlewares/authentication/auth`);
+
+// configure swagger ui
+const swaggerDocument = require(`${appRoot}/doc/api-spec.json`);
+router.use('/', swaggerUi.serve);
+router.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
 // configure routes
 userRoute(router);

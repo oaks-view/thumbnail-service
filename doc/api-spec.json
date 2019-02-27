@@ -1,0 +1,310 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Sample API",
+    "description": "Api documentation for backend project described [here](https://github.com/hackerbay/interview-backend-task).",
+    "version": "0.1.9"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:3000",
+      "description": "Local dev server url"
+    },
+    {
+      "url": "http://staging-api.example.com",
+      "description": "Url to heroku deployment"
+    }
+  ],
+  "paths": {
+    "/create-thumbnail": {
+      "post": {
+        "tags": [
+          "Features"
+        ],
+        "summary": "Resize sent image to 50 x 50 and return thumbnail",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "json web token gotten from login"
+            },
+            "required": true,
+            "example": "JWT djooiedoejiohejdjceijicnowjeoidncdwioneinwocnowo"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "minProperties": 2,
+                "properties": {
+                  "imageUrl": {
+                    "type": "string",
+                    "description": "Public image url",
+                    "example": "http://www.example.com/path/to/lenna.jpg"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resized image and created thumbnail successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "domain": {
+                      "type": "string"
+                    },
+                    "_events": {
+                      "type": "object"
+                    },
+                    "_eventsCount": {
+                      "type": "number"
+                    },
+                    "bitmap": {
+                      "type": "object",
+                      "properties": {
+                        "width": {
+                          "type": "number"
+                        },
+                        "height": {
+                          "type": "number"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            },
+                            "data": {
+                              "type": "array",
+                              "items": {
+                                "type": "number"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "_background": {
+                      "type": "number"
+                    },
+                    "_originalMime": {
+                      "type": "string",
+                      "example": "image/jpeg"
+                    },
+                    "_exif": {
+                      "type": "object"
+                    },
+                    "_rgba": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Body missing required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/json-patch": {
+      "post": {
+        "tags": [
+          "Features"
+        ],
+        "summary": "Apply Json patch to request body",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "json web token gotten from login"
+            },
+            "required": true,
+            "example": "JWT djooiedoejiohejdjceijicnowjeoidncdwioneinwocnowo"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "minProperties": 2,
+                "properties": {
+                  "document": {
+                    "type": "object",
+                    "description": "json document to be modified"
+                  },
+                  "patch": {
+                    "type": "object",
+                    "description": "updates to be applied on attached document",
+                    "minProperties": 2,
+                    "properties": {
+                      "op": {
+                        "type": "string",
+                        "enum": [
+                          "add",
+                          "remove",
+                          "replace",
+                          "copy",
+                          "move",
+                          "test"
+                        ],
+                        "description": "operation to perform"
+                      },
+                      "path": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Apply patch was successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Body missing required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "User signin with username and password.",
+        "description": "User signs in with username and password, and get back a jsonwebtoken",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "jsonwebtoken, to be sent with every request to an authenticated endpoint"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Body missing required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ResponseMessage": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "custom message from server"
+          }
+        }
+      }
+    }
+  }
+}
