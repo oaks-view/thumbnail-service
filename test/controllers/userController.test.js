@@ -73,4 +73,24 @@ describe('UserController', () => {
         sandbox.assert.calledWith(res.status, HTTP_STATUS.OK.CODE);
         sandbox.assert.calledWith(resJson, { token });
     });
+
+    it('login returns status code 500 whenever an unknown error occurs', async () => {
+        // throw exception so as to hit the catch block
+        jwt.sign = sandbox.stub().throws('unknown lib error');
+
+        const req = {
+            body: {
+                username: 'mozenge',
+                password: 123456
+            }
+        };
+
+        await userController.login(req, res);
+
+        sandbox.assert.calledOnce(jwt.sign);
+        sandbox.assert.calledWith(res.status, HTTP_STATUS.INTERNAL_SERVER_ERROR.CODE);
+        sandbox.assert.calledWith(resJson, {
+            message: HTTP_STATUS.INTERNAL_SERVER_ERROR.MESSAGE
+        });
+    });
 });

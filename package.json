@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha ./test/**/*.js",
+    "coverage": "nyc --reporter=html --reporter=text mocha ./test/**/*.js",
     "start": "nodemon server.js",
     "lint": "eslint ."
   },
@@ -36,6 +37,7 @@
     "eslint": "^5.14.1",
     "mocha": "^6.0.2",
     "nodemon": "^1.18.10",
+    "nyc": "^13.3.0",
     "proxyquire": "^2.1.0",
     "sinon": "^7.2.5"
   }
