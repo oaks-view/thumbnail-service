@@ -30,33 +30,33 @@ describe('UserController', () => {
         sandbox.restore();
     });
 
-    it('login returns status code 400 if username is missing', async () => {
+    it('login returns status code 400 if username is missing', () => {
         const req = {
             body: {
                 password: 123456
             }
         };
 
-        await userController.login(req, res);
+         userController.login(req, res);
 
         sandbox.assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
         sandbox.assert.calledWith(resJson, { message: 'username is missing' });
     });
 
-    it('login returns status code 400 if password is missing', async () => {
+    it('login returns status code 400 if password is missing', () => {
         const req = {
             body: {
                 username: 'mozenge'
             }
         };
 
-        await userController.login(req, res);
+         userController.login(req, res);
 
         sandbox.assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
         sandbox.assert.calledWith(resJson, { message: 'password is missing' });
     });
 
-    it('login creates signed token', async () => {
+    it('login creates signed token', () => {
         const token = 'e02d9c93b39e828a98c9949f9339ff93ee939a9c939b38';
         jwt.sign = sandbox.stub().returns(token);
 
@@ -67,16 +67,16 @@ describe('UserController', () => {
             }
         };
 
-        await userController.login(req, res);
+         userController.login(req, res);
 
         sandbox.assert.calledOnce(jwt.sign);
         sandbox.assert.calledWith(res.status, HTTP_STATUS.OK.CODE);
         sandbox.assert.calledWith(resJson, { token });
     });
 
-    it('login returns status code 500 whenever an unknown error occurs', async () => {
+    it('login returns status code 500 whenever an unknown error occurs', () => {
         // throw exception so as to hit the catch block
-        jwt.sign = sandbox.stub().throws('unknown lib error');
+        jwt.sign = sandbox.stub().throwsException('unknown lib error');
 
         const req = {
             body: {
@@ -85,7 +85,7 @@ describe('UserController', () => {
             }
         };
 
-        await userController.login(req, res);
+         userController.login(req, res);
 
         sandbox.assert.calledOnce(jwt.sign);
         sandbox.assert.calledWith(res.status, HTTP_STATUS.INTERNAL_SERVER_ERROR.CODE);

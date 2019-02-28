@@ -4,8 +4,9 @@
   "description": "image processing service",
   "main": "server.js",
   "scripts": {
-    "test": "mocha ./test/**/*.js",
-    "coverage": "nyc --reporter=html --reporter=text mocha ./test/**/*.js",
+    "test": "mocha --timeout 9000 ./test/**/*.js",
+    "test:debug": "mocha --timeout 9000 ./test/**/*.js --inspect-brk",
+    "coverage": "nyc --reporter=html  --reporter=text mocha --timeout 9000 ./test/**/*.js",
     "start": "nodemon server.js",
     "lint": "eslint ."
   },
