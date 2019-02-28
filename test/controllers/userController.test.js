@@ -2,7 +2,6 @@ const appRoot = require('app-root-path');
 const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 const sandbox = sinon.createSandbox();
-// const userController = require(`${appRoot}/api/controllers/userController`);
 const { HTTP_STATUS } = require(`${appRoot}/api/constants/requestConstants`);
 
 describe('UserController', () => {

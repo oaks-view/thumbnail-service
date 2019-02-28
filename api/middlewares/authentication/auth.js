@@ -14,7 +14,7 @@ const strategy = new JWTStrategy(jwtOptions, (jwtPayload, next) => {
     const hasUsernameAndPassword = !!jwtPayload.username && !!jwtPayload.password;
 
     if (intTestResult !== AUTH_INTEGER || !hasUsernameAndPassword) {
-        next(null, false);
+        return next(null, false);
     }
 
     next(null, jwtPayload);

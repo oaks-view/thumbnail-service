@@ -4,7 +4,7 @@ const proxyquire = require('proxyquire');
 const sandbox = sinon.createSandbox();
 const { HTTP_STATUS } = require(`${appRoot}/api/constants/requestConstants`);
 
-describe.only('CoreController', () => {
+describe('CoreController', () => {
     let coreController;
     let res;
     let resJson;
