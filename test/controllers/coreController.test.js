@@ -2,6 +2,7 @@ const appRoot = require('app-root-path');
 const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 const sandbox = sinon.createSandbox();
+const { assert } = sandbox;
 const { HTTP_STATUS } = require(`${appRoot}/api/constants/requestConstants`);
 
 describe('CoreController', () => {
@@ -56,8 +57,8 @@ describe('CoreController', () => {
 
         coreController.applyPatch(req, res);
 
-        sandbox.assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
-        sandbox.assert.calledWith(resJson, { message: 'document must be valid json format' });
+        assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
+        assert.calledWith(resJson, { message: 'document must be valid json format' });
     });
 
     it('applyPatch returns status code 400 when document is not a json object', () => {
@@ -72,8 +73,8 @@ describe('CoreController', () => {
 
         coreController.applyPatch(req, res);
 
-        sandbox.assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
-        sandbox.assert.calledWith(resJson, { message: 'document must be valid json format' });
+        assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
+        assert.calledWith(resJson, { message: 'document must be valid json format' });
     });
 
     it('applyPatch returns status code 400 when patch is missing', () => {
@@ -87,8 +88,8 @@ describe('CoreController', () => {
 
         coreController.applyPatch(req, res);
 
-        sandbox.assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
-        sandbox.assert.calledWith(resJson, { message: 'patch must be valid json format' });
+        assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
+        assert.calledWith(resJson, { message: 'patch must be valid json format' });
     });
 
     it('applyPatch returns status code 400 when patch is not a valid json object', () => {
@@ -103,8 +104,8 @@ describe('CoreController', () => {
 
         coreController.applyPatch(req, res);
 
-        sandbox.assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
-        sandbox.assert.calledWith(resJson, { message: 'patch must be valid json format' });
+        assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
+        assert.calledWith(resJson, { message: 'patch must be valid json format' });
     });
 
     it('applyPatch returns status code 400 when patch is not a valid json object', () => {
@@ -119,8 +120,8 @@ describe('CoreController', () => {
 
         coreController.applyPatch(req, res);
 
-        sandbox.assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
-        sandbox.assert.calledWith(resJson, { message: 'patch must be valid json format' });
+        assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
+        assert.calledWith(resJson, { message: 'patch must be valid json format' });
     });
 
     it('applyPatch returns status code 400 when patch fails fields validation', () => {
@@ -139,9 +140,9 @@ describe('CoreController', () => {
 
         coreController.applyPatch(req, res);
 
-        sandbox.assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
-        sandbox.assert.calledWith(coreService.validatePatch, req.body.patch);
-        sandbox.assert.calledWith(resJson, {
+        assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
+        assert.calledWith(coreService.validatePatch, req.body.patch);
+        assert.calledWith(resJson, {
             message: `patch is missing the following fields ${patchValidationResult.missingFields}`
         });
     });
@@ -165,11 +166,11 @@ describe('CoreController', () => {
 
         coreController.applyPatch(req, res);
 
-        sandbox.assert.calledWith(coreService.validatePatch, req.body.patch);
-        sandbox.assert.calledWith(jsonPatch.applyOperation, req.body.document, req.body.patch);
+        assert.calledWith(coreService.validatePatch, req.body.patch);
+        assert.calledWith(jsonPatch.applyOperation, req.body.document, req.body.patch);
 
-        sandbox.assert.calledWith(res.status, HTTP_STATUS.OK.CODE);
-        sandbox.assert.calledWith(resJson, newDocument);
+        assert.calledWith(res.status, HTTP_STATUS.OK.CODE);
+        assert.calledWith(resJson, newDocument);
     });
 
     it('applyPatch returns status 500 when unexpected error occurs', () => {
@@ -190,10 +191,10 @@ describe('CoreController', () => {
 
         coreController.applyPatch(req, res);
 
-        sandbox.assert.calledWith(coreService.validatePatch, req.body.patch);
-        sandbox.assert.calledWith(jsonPatch.applyOperation, req.body.document, req.body.patch);
+        assert.calledWith(coreService.validatePatch, req.body.patch);
+        assert.calledWith(jsonPatch.applyOperation, req.body.document, req.body.patch);
 
-        sandbox.assert.calledWith(res.status, HTTP_STATUS.INTERNAL_SERVER_ERROR.CODE);
+        assert.calledWith(res.status, HTTP_STATUS.INTERNAL_SERVER_ERROR.CODE);
     });
 
     it('createThumbnail returns status code 400 if imageUrl is missing', async () => {
@@ -204,8 +205,8 @@ describe('CoreController', () => {
 
         await coreController.createThumbnail(req, res);
 
-        sandbox.assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
-        sandbox.assert.calledWith(resJson, { message: 'imageUrl is missing' });
+        assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
+        assert.calledWith(resJson, { message: 'imageUrl is missing' });
     });
 
     it('createThumbnail returns status code 400 if imageUrl is missing', async () => {
@@ -219,8 +220,8 @@ describe('CoreController', () => {
 
         await coreController.createThumbnail(req, res);
 
-        sandbox.assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
-        sandbox.assert.calledWith(resJson, {
+        assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
+        assert.calledWith(resJson, {
             message: 'Image url is invalid'
         });
     });
@@ -254,11 +255,11 @@ describe('CoreController', () => {
 
         await coreController.createThumbnail(req, res);
 
-        sandbox.assert.calledWith(image.resize, 50, 50);
-        sandbox.assert.calledWith(jimp.read, req.body.imageUrl)
+        assert.calledWith(image.resize, 50, 50);
+        assert.calledWith(jimp.read, req.body.imageUrl)
 
-        sandbox.assert.calledWith(res.status, HTTP_STATUS.OK.CODE);
-        sandbox.assert.calledWith(resJson, {
+        assert.calledWith(res.status, HTTP_STATUS.OK.CODE);
+        assert.calledWith(resJson, {
             thumbnail
         });
     });
@@ -280,8 +281,8 @@ describe('CoreController', () => {
 
         await coreController.createThumbnail(req, res);
 
-        sandbox.assert.calledWith(res.status, HTTP_STATUS.INTERNAL_SERVER_ERROR.CODE);
-        sandbox.assert.calledWith(resJson, {
+        assert.calledWith(res.status, HTTP_STATUS.INTERNAL_SERVER_ERROR.CODE);
+        assert.calledWith(resJson, {
             message: HTTP_STATUS.INTERNAL_SERVER_ERROR.MESSAGE
         });
     });

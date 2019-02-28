@@ -2,6 +2,7 @@ const appRoot = require('app-root-path');
 const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 const sandbox = sinon.createSandbox();
+const { assert } = sandbox;
 const { HTTP_STATUS } = require(`${appRoot}/api/constants/requestConstants`);
 
 describe('UserController', () => {
@@ -38,8 +39,8 @@ describe('UserController', () => {
 
          userController.login(req, res);
 
-        sandbox.assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
-        sandbox.assert.calledWith(resJson, { message: 'username is missing' });
+        assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
+        assert.calledWith(resJson, { message: 'username is missing' });
     });
 
     it('login returns status code 400 if password is missing', () => {
@@ -51,8 +52,8 @@ describe('UserController', () => {
 
          userController.login(req, res);
 
-        sandbox.assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
-        sandbox.assert.calledWith(resJson, { message: 'password is missing' });
+        assert.calledWith(res.status, HTTP_STATUS.BAD_REQUEST.CODE);
+        assert.calledWith(resJson, { message: 'password is missing' });
     });
 
     it('login creates signed token', () => {
@@ -68,9 +69,9 @@ describe('UserController', () => {
 
          userController.login(req, res);
 
-        sandbox.assert.calledOnce(jwt.sign);
-        sandbox.assert.calledWith(res.status, HTTP_STATUS.OK.CODE);
-        sandbox.assert.calledWith(resJson, { token });
+        assert.calledOnce(jwt.sign);
+        assert.calledWith(res.status, HTTP_STATUS.OK.CODE);
+        assert.calledWith(resJson, { token });
     });
 
     it('login returns status code 500 whenever an unknown error occurs', () => {
@@ -86,9 +87,9 @@ describe('UserController', () => {
 
          userController.login(req, res);
 
-        sandbox.assert.calledOnce(jwt.sign);
-        sandbox.assert.calledWith(res.status, HTTP_STATUS.INTERNAL_SERVER_ERROR.CODE);
-        sandbox.assert.calledWith(resJson, {
+        assert.calledOnce(jwt.sign);
+        assert.calledWith(res.status, HTTP_STATUS.INTERNAL_SERVER_ERROR.CODE);
+        assert.calledWith(resJson, {
             message: HTTP_STATUS.INTERNAL_SERVER_ERROR.MESSAGE
         });
     });

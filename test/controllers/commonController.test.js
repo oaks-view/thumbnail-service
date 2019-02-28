@@ -2,6 +2,7 @@ const appRoot = require('app-root-path');
 const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 const sandbox = sinon.createSandbox();
+const { assert } = sandbox;
 
 describe('CommonController', () => {
     let passport;
@@ -23,6 +24,6 @@ describe('CommonController', () => {
     });
 
     it('creates passport auth middleware on initialization', () => {
-        sandbox.assert.calledWith(passport.authenticate, 'jwt', { session: false });
+        assert.calledWith(passport.authenticate, 'jwt', { session: false });
     });
 });

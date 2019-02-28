@@ -3,6 +3,7 @@ const chai = require('chai');
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 const sandbox = sinon.createSandbox();
+const { assert } = sandbox;
 const { AUTH_INTEGER } = require(`${appRoot}/api/constants/authConstants`);
 
 describe('Authentication', () => {
@@ -49,7 +50,7 @@ describe('Authentication', () => {
         });
 
         it('returns unauthorized if username is missing', () => {
-            sandbox.assert.calledWith(next, null, false);
+            assert.calledWith(next, null, false);
         });
 
     });
@@ -96,7 +97,7 @@ describe('Authentication', () => {
         });
 
         it('returns unauthorized if password is missing', () => {
-            sandbox.assert.calledWith(next, null, false);
+            assert.calledWith(next, null, false);
         });
 
     });
@@ -144,7 +145,7 @@ describe('Authentication', () => {
         });
 
         it('returns unauthorized if authId is invalid', () => {
-            sandbox.assert.calledWith(next, null, false);
+            assert.calledWith(next, null, false);
         });
     });
 
@@ -191,7 +192,7 @@ describe('Authentication', () => {
         });
 
         it('returns authorized if all expected parameters are valid', () => {
-            sandbox.assert.calledWith(next, null, payload);
+            assert.calledWith(next, null, payload);
         });
     });
 });
